@@ -13,37 +13,22 @@
 <div id="pano"></div>
 
 <div id="sceneList">
-  <ul class="scenes">
-    
-      <a href="javascript:void(0)" class="scene" data-id="0-hall">
-        <li class="text">Hall</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="1-library">
-        <li class="text">Library</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="2-lobby">
-        <li class="text">Lobby</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="3-media-room">
-        <li class="text">Media Room</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="4-organ-room">
-        <li class="text">Organ Room</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="5-porch">
-        <li class="text">Porch</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="6-public-room">
-        <li class="text">Public Room</li>
-      </a>
-    
-  </ul>
+  <div>
+    <div class="image-container">
+      <img src="img/map.png" usemap="#imagemap" id="mapImage" alt="Map">
+      
+	  <map name="imagemap">
+        <area shape="rect" coords="582,145,637,189" href="javascript:void(0)" class="scene" data-id="0-hall" data-rawcoords="582,145,637,189">
+        <area shape="rect" coords="192,9,396,180" href="javascript:void(0)" class="scene" data-id="1-library" data-rawcoords="192,9,396,180">
+        <area shape="polygon" coords="192,185,192,325,580,325,580,145,519,145,519,185" href="javascript:void(0)" class="scene" data-id="2-lobby" data-rawcoords="192,185,192,325,580,325,580,145,519,145,519,185">
+        <area shape="rect" coords="9,9,188,325" href="javascript:void(0)" class="scene" data-id="3-media-room" data-rawcoords="9,9,188,325">
+        <area shape="polygon" coords="400,9,400,180,515,180,515,140,636,140,636,9" href="javascript:void(0)" class="scene" data-id="4-organ-room" data-rawcoords="400,9,400,180,515,180,515,140,636,140,636,9">
+        <area shape="rect" coords="9,329,795,380" href="javascript:void(0)" class="scene" data-id="5-porch" data-rawcoords="9,329,795,380">
+        <area shape="rect" coords="639,9,795,325" href="javascript:void(0)" class="scene" data-id="6-public-room" data-rawcoords="639,9,795,325">
+      </map>
+	  <img src="img/camera.png" id="cameraLocation" alt="Camera" style="position: absolute; z-index: 1">
+    </div>
+  </div>
 </div>
 
 <div id="titleBar">

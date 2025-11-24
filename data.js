@@ -21,21 +21,33 @@ var APP_DATA = {
       "faceSize": 1024,
       "initialViewParameters": {
         "yaw": -2.968418088041485,
-        "pitch": 0.13599687419040762,
-        "fov": 1.5091423593016802
+        "pitch": 0.0,
+        "fov": 1.0
       },
+	  "cam_x": 611,
+	  "cam_y": 168,
       "linkHotspots": [
         {
           "yaw": -3.0612224965393207,
-          "pitch": -0.07406533417657002,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "2-lobby"
+          "target": "2-lobby",
+		  "nextViewParameters": {
+			"yaw": 1.57,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }
         },
         {
           "yaw": 0.16423221382155617,
-          "pitch": 0.0004767360393262976,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "6-public-room"
+          "target": "6-public-room",
+		  "nextViewParameters": {
+			"yaw": 0.0,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }
         }
       ],
       "infoHotspots": []
@@ -61,15 +73,22 @@ var APP_DATA = {
       "faceSize": 1024,
       "initialViewParameters": {
         "yaw": 3.1341026042663245,
-        "pitch": 0.18360533740346874,
-        "fov": 1.5091423593016802
+        "pitch": 0.0,
+        "fov": 1.0
       },
+	  "cam_x": 297,
+	  "cam_y": 98,	  
       "linkHotspots": [
         {
           "yaw": -0.8114410359540276,
-          "pitch": 0.016409519147620344,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "2-lobby"
+          "target": "2-lobby",
+		  "nextViewParameters": {
+			"yaw": 0.0,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }
         }
       ],
       "infoHotspots": []
@@ -95,39 +114,66 @@ var APP_DATA = {
       "faceSize": 1024,
       "initialViewParameters": {
         "yaw": 2.381144819305895,
-        "pitch": 0.17632795700854764,
-        "fov": 1.5091423593016802
+        "pitch": 0.0,
+        "fov": 1.0
       },
+	  "cam_x": 483,
+	  "cam_y": 251,	  	  
       "linkHotspots": [
         {
           "yaw": -2.307108227562381,
-          "pitch": 0.03242665570628667,
+          "pitch": 0.0,
           "rotation": 0.7853981633974483,
-          "target": "0-hall"
+          "target": "0-hall",
+		  "nextViewParameters": {
+			"yaw": 0.5,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }
         },
         {
           "yaw": -2.633628080535381,
-          "pitch": 0.027512043237589268,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "4-organ-room"
+          "target": "4-organ-room",
+		  "nextViewParameters": {
+			"yaw": 3.14,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }
         },
         {
           "yaw": 2.4538310197285975,
-          "pitch": 0.06525919719579854,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "1-library"
+          "target": "1-library",
+		  "nextViewParameters": {
+			"yaw": 3.14,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }
         },
         {
           "yaw": 1.9347168954129197,
-          "pitch": -0.020363492599127397,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "3-media-room"
+          "target": "3-media-room",
+		  "nextViewParameters": {
+			"yaw": 0.7,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }
         },
         {
           "yaw": 0.4911942494741943,
-          "pitch": -0.0008889235165145948,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "5-porch"
+          "target": "5-porch",
+		  "nextViewParameters": {
+			"yaw": 1.4,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }
         }
       ],
       "infoHotspots": []
@@ -153,15 +199,22 @@ var APP_DATA = {
       "faceSize": 1024,
       "initialViewParameters": {
         "yaw": 2.0262285071458255,
-        "pitch": 0.06890806586275744,
-        "fov": 1.5091423593016802
+        "pitch": 0.0,
+        "fov": 1.0
       },
+	  "cam_x": 50,
+	  "cam_y": 163,	  	  
       "linkHotspots": [
         {
           "yaw": -1.7188813807116965,
-          "pitch": -0.021581126302613995,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "2-lobby"
+          "target": "2-lobby",
+		  "nextViewParameters": {
+			"yaw": -1.57,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }
         }
       ],
       "infoHotspots": []
@@ -187,15 +240,22 @@ var APP_DATA = {
       "faceSize": 1024,
       "initialViewParameters": {
         "yaw": -3.0238650361647785,
-        "pitch": -0.042230668841906294,
-        "fov": 1.5091423593016802
+        "pitch": 0.0,
+        "fov": 1.0
       },
+	  "cam_x": 508,
+	  "cam_y": 94,	  	  
       "linkHotspots": [
         {
           "yaw": -0.2788803439045804,
-          "pitch": 0.00855050111842992,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "2-lobby"
+          "target": "2-lobby",
+		  "nextViewParameters": {
+			"yaw": 0.0,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }		  
         }
       ],
       "infoHotspots": []
@@ -221,21 +281,33 @@ var APP_DATA = {
       "faceSize": 1024,
       "initialViewParameters": {
         "yaw": -1.7864639280811936,
-        "pitch": -0.052063128284411064,
-        "fov": 1.5091423593016802
+        "pitch": 0.0,
+        "fov": 1.0
       },
+	  "cam_x": 592,
+	  "cam_y": 360,	  	  
       "linkHotspots": [
         {
           "yaw": -1.0408709168509347,
-          "pitch": -0.1255595807794876,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "6-public-room"
+          "target": "6-public-room",
+		  "nextViewParameters": {
+			"yaw": -1.57,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }		  
         },
         {
           "yaw": -2.558192612796674,
-          "pitch": -0.14798917660837674,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "2-lobby"
+          "target": "2-lobby",
+		  "nextViewParameters": {
+			"yaw": 3.14,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }
         }
       ],
       "infoHotspots": []
@@ -261,21 +333,33 @@ var APP_DATA = {
       "faceSize": 1024,
       "initialViewParameters": {
         "yaw": -0.7173828269434956,
-        "pitch": 0.0031168636754799195,
-        "fov": 1.5091423593016802
+        "pitch": 0.0,
+        "fov": 1.0
       },
+	  "cam_x": 705,
+	  "cam_y": 263,	  	  
       "linkHotspots": [
         {
           "yaw": -2.589880864223776,
-          "pitch": -0.0013824338069685638,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "0-hall"
+          "target": "0-hall",
+		  "nextViewParameters": {
+			"yaw": 3.0,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }		  
         },
         {
           "yaw": 1.625114565318972,
-          "pitch": 0.028335081915621174,
+          "pitch": 0.0,
           "rotation": 0,
-          "target": "5-porch"
+          "target": "5-porch",
+		  "nextViewParameters": {
+			"yaw": 1.2,
+			"pitch": 0.0,
+			"fov": 1.0
+		  }
         }
       ],
       "infoHotspots": []

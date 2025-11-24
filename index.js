@@ -78,7 +78,15 @@
       { cubeMapPreviewUrl: urlPrefix + "/" + data.id + "/preview.jpg" });
     var geometry = new Marzipano.CubeGeometry(data.levels);
 
-    var limiter = Marzipano.RectilinearView.limit.traditional(data.faceSize, 100*Math.PI/180, 120*Math.PI/180);
+/* new code */
+//    var limiter = Marzipano.RectilinearView.limit.traditional(data.faceSize, 100*Math.PI/180, 120*Math.PI/180);
+// Increase allowable zoom (1st parameter), limit vertical fov (2nd parameter), limit horizontal fov (3rd parameter)
+	var limiter = Marzipano.util.compose(
+	  Marzipano.RectilinearView.limit.traditional(3*data.faceSize, 100*Math.PI/180, 120*Math.PI/180),
+	  Marzipano.RectilinearView.limit.pitch(-5*Math.PI/180, 5*Math.PI/180)
+	);
+
+/* end of new code */	
     var view = new Marzipano.RectilinearView(data.initialViewParameters, limiter);
 
     var scene = viewer.createScene({
@@ -111,7 +119,10 @@
   var autorotate = Marzipano.autorotate({
     yawSpeed: 0.03,
     targetPitch: 0,
-    targetFov: Math.PI/2
+/* new code */
+//    targetFov: Math.PI/2
+	targetFov: 1.0
+/* end of new code */	
   });
   if (data.settings.autorotateEnabled) {
     autorotateToggleElement.classList.add('enabled');
@@ -145,17 +156,110 @@
     showSceneList();
   }
 
-  // Set handler for scene switch.
-  scenes.forEach(function(scene) {
-    var el = document.querySelector('#sceneList .scene[data-id="' + scene.data.id + '"]');
-    el.addEventListener('click', function() {
-      switchScene(scene);
-      // On mobile, hide scene list after selecting a scene.
-      if (document.body.classList.contains('mobile')) {
-        hideSceneList();
-      }
-    });
-  });
+/*  new code */
+	scenes.forEach(function(scene) {
+	  document.querySelectorAll('.scene[data-id="' + scene.data.id + '"]').forEach(function(el) {
+		el.addEventListener('click', function(e) {
+		  switchScene(scene);
+		  if (document.body.classList.contains('mobile')) {
+			hideSceneList();
+		  }
+		});
+	  });
+	});
+
+	function getDeclaredCSS(selector) {
+	  for (const sheet of document.styleSheets) {
+		// Some sheets (cross-origin) may throw errors, so use try/catch
+		try {
+		  for (const rule of sheet.cssRules || []) {
+			if (rule.selectorText === selector) {
+			  return rule.style.left; // Returns "" if not set; returns value if set
+			}
+		  }
+		} catch (e) { /* ignore cross-origin sheets */ }
+	  }
+	  return null;
+	}
+
+	function resizeAreas() {
+	//	  const declaredCSS = getDeclaredCSS('#sceneList');
+	//	  const cssWidth = Math.abs(parseFloat(declaredCSS));
+	//	  console.log("Declared CSS width:", cssWidth); // "" if no corresponding property set in that rule
+
+	  var img = document.getElementById('mapImage');
+	/*	  var w = img.naturalWidth, h = img.naturalHeight; */
+	//	  const pxWidth = parseFloat(cssWidth);
+	//  var pxHeight = img.naturalHeight * pxWidth / img.naturalWidth;
+	  var pxHeight = img.naturalHeight;
+	  var pxWidth = img.naturalWidth;
+	  console.log("Pix W/H: ",pxWidth, ",", pxHeight);
+	  var w = pxWidth, h = pxHeight;
+	  var cw = img.width, ch = img.height;
+	  console.log("img W/H: ",cw, ",", ch);
+
+	  document.querySelectorAll('area[data-rawcoords]').forEach(function(area) {
+		let orig = area.getAttribute('data-rawcoords').split(',').map(Number);
+		let coords = [];
+
+		// Pair coords for all shapes
+		for (let i = 0; i < orig.length; i += 2) {
+		  let x = Math.round(orig[i] * cw / w);
+		  let y = Math.round(orig[i + 1] * ch / h);
+		  coords.push(x, y);
+		}
+		area.coords = coords.join(',');
+	  });
+	}
+
+	window.addEventListener('resize', resizeAreas);
+	document.getElementById('mapImage').addEventListener('load', resizeAreas);
+	window.addEventListener('DOMContentLoaded', resizeAreas);
+//	resizeAreas();
+
+	function showCameraLocation(cam_x,cam_y) {
+	  var img = document.getElementById('mapImage');
+//	  const container = document.getElementById('sceneList');
+	  const overlay = document.getElementById('cameraLocation');
+//	  const baseX = 601; // original overlay x position (pixels)
+//	  const baseY = 158; // original overlay y position (pixels)
+	  const baseW = 50; // original overlay width (pixels)
+	  const baseH = 32; // original overlay height (pixels)
+	  var baseX = cam_x - baseW/2;
+	  var baseY = cam_y - baseH/2;
+	  const baseImageW = img.naturalWidth; // base image width
+	  const baseImageH = img.naturalHeight; // base image height
+//	  const currW = container.offsetWidth;
+//	  const currH = container.offsetHeight;
+	  const currW = img.width;
+	  const currH = img.height;
+	  console.log("img natural W:",img.naturalWidth,"img natural H:", img.naturalHeight);
+	  console.log("curr W:",currW,"curr H:",currH);
+
+	  // Scale overlay position and size
+	  overlay.style.left = (baseX * currW / baseImageW) + "px";
+	  overlay.style.top = (baseY * currH / baseImageH) + "px";
+	  overlay.style.width = (baseW * currW / baseImageW) + "px";
+	  overlay.style.height = (baseH * currH / baseImageH) + "px";
+	}
+	window.addEventListener('resize', showCameraLocation);
+	window.addEventListener('DOMContentLoaded', showCameraLocation);
+
+	function switchScene2(scene, nextViewParameters) {
+		stopAutorotate();
+		//    scene.view.setParameters(scene.data.initialViewParameters);
+		scene.view.setParameters(nextViewParameters);
+		console.log("Next data from switchScene2 function:", nextViewParameters);
+		console.log("Camera location:",scene.data.cam_x, scene.data.cam_y);
+		showCameraLocation(scene.data.cam_x,scene.data.cam_y);
+		scene.scene.switchTo();
+		startAutorotate();
+		updateSceneName(scene);
+		updateSceneList(scene);
+	}
+
+		
+/* end of new code */
 
   // DOM elements for view controls.
   var viewUpElement = document.querySelector('#viewUp');
@@ -177,6 +281,7 @@
   controls.registerMethod('rightElement', new Marzipano.ElementPressControlMethod(viewRightElement,  'x',  velocity, friction), true);
   controls.registerMethod('inElement',    new Marzipano.ElementPressControlMethod(viewInElement,  'zoom', -velocity, friction), true);
   controls.registerMethod('outElement',   new Marzipano.ElementPressControlMethod(viewOutElement, 'zoom',  velocity, friction), true);
+  controls.enableMethod('scrollZoom');  // wheel zoom
 
   function sanitize(s) {
     return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
@@ -185,6 +290,9 @@
   function switchScene(scene) {
     stopAutorotate();
     scene.view.setParameters(scene.data.initialViewParameters);
+/* New Code*/
+	showCameraLocation(scene.data.cam_x,scene.data.cam_y);
+/* End of New Code */	
     scene.scene.switchTo();
     startAutorotate();
     updateSceneName(scene);
@@ -265,7 +373,8 @@
 
     // Add click event handler.
     wrapper.addEventListener('click', function() {
-      switchScene(findSceneById(hotspot.target));
+//	  console.log("Hotspot.nextViewParameters from line 329:", hotspot.nextViewParameters);
+      switchScene2(findSceneById(hotspot.target),hotspot.nextViewParameters);
     });
 
     // Prevent touch and scroll events from reaching the parent element.
@@ -387,6 +496,6 @@
   }
 
   // Display the initial scene.
-  switchScene(scenes[0]);
+  switchScene(scenes[5]);
 
 })();

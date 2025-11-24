@@ -256,9 +256,9 @@ body.fullscreen-enabled.mobile #autorotateToggle {
 #sceneList {
   position: absolute;
   top: 0;
-  left: -220px;
+  left: calc(-1*var(--map-width)); /* Set this to the width of the map, but negative */
   padding-top: 40px;
-  width: 220px;
+  width: var(--map-width); /* Set this to the width of the map */
   max-height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
@@ -292,7 +292,7 @@ body.fullscreen-enabled.mobile #autorotateToggle {
 }
 
 #sceneList.enabled {
-  margin-left: 220px;
+  margin-left: var(--map-width); /* Set this to the width of the map */
 }
 
 #sceneList .scene {
@@ -521,7 +521,7 @@ body.single-scene #sceneList, body.single-scene #sceneListToggle {
 
 .desktop .info-hotspot.visible .info-hotspot-title-wrapper,
 .desktop.no-touch .info-hotspot .info-hotspot-header:hover .info-hotspot-title-wrapper {
-  width: 220px;
+  width: var(--map-width); /* Set this to the width of the map */
   padding: 0 5px;
   -webkit-transition: width 0s 0.4s,
                       padding 0s 0.4s;
@@ -827,4 +827,34 @@ body.view-control-buttons .viewControlButton {
 }
 .viewControlButton-6 {
   margin-left: 105px;
+}
+
+/* new CSS */
+:root {
+  --map-width: 500px; /* The width of the image */
+}
+
+.image-container {
+  width: var(--map-width); /* Sets the width of the map image on the screen */
+  max-width: 100vw;
+  overflow: visible;
+  position: relative;
+}
+img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+area {
+  display: inline;           /* restores default (should not be block or list) */
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  /* Do NOT set display:none! */
 }
