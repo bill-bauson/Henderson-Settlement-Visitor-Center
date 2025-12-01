@@ -20,6 +20,9 @@
   var bowser = window.bowser;
   var screenfull = window.screenfull;
   var data = window.APP_DATA;
+  
+  var currentYaw = 0;
+  var yaw_offset = 0;
 
   // Grab elements from DOM.
   var panoElement = document.querySelector('#pano');
@@ -86,8 +89,17 @@
 	  Marzipano.RectilinearView.limit.pitch(-5*Math.PI/180, 5*Math.PI/180)
 	);
 
-/* end of new code */	
     var view = new Marzipano.RectilinearView(data.initialViewParameters, limiter);
+
+	view.addEventListener('change', () => {
+		let yaw = view.yaw();      // in radians
+		let pitch = view.pitch();  // optional
+		currentYaw = yaw;
+		updateCameraRotation();
+//		console.log("Current yaw:", yaw);
+	});
+
+/* end of new code */	
 
     var scene = viewer.createScene({
       source: source,
@@ -193,10 +205,10 @@
 	//  var pxHeight = img.naturalHeight * pxWidth / img.naturalWidth;
 	  var pxHeight = img.naturalHeight;
 	  var pxWidth = img.naturalWidth;
-	  console.log("Pix W/H: ",pxWidth, ",", pxHeight);
+//	  console.log("Pix W/H: ",pxWidth, ",", pxHeight);
 	  var w = pxWidth, h = pxHeight;
 	  var cw = img.width, ch = img.height;
-	  console.log("img W/H: ",cw, ",", ch);
+//	  console.log("img W/H: ",cw, ",", ch);
 
 	  document.querySelectorAll('area[data-rawcoords]').forEach(function(area) {
 		let orig = area.getAttribute('data-rawcoords').split(',').map(Number);
@@ -217,14 +229,14 @@
 	window.addEventListener('DOMContentLoaded', resizeAreas);
 //	resizeAreas();
 
-	function showCameraLocation(cam_x,cam_y) {
+	function showCameraLocation(cam_x,cam_y,yaw_offset) {
 	  var img = document.getElementById('mapImage');
 //	  const container = document.getElementById('sceneList');
 	  const overlay = document.getElementById('cameraLocation');
 //	  const baseX = 601; // original overlay x position (pixels)
 //	  const baseY = 158; // original overlay y position (pixels)
-	  const baseW = 50; // original overlay width (pixels)
-	  const baseH = 32; // original overlay height (pixels)
+	  const baseW = 40; // original overlay width (pixels)
+	  const baseH = 40; // original overlay height (pixels)
 	  var baseX = cam_x - baseW/2;
 	  var baseY = cam_y - baseH/2;
 	  const baseImageW = img.naturalWidth; // base image width
@@ -233,15 +245,23 @@
 //	  const currH = container.offsetHeight;
 	  const currW = img.width;
 	  const currH = img.height;
-	  console.log("img natural W:",img.naturalWidth,"img natural H:", img.naturalHeight);
-	  console.log("curr W:",currW,"curr H:",currH);
+//	  console.log("img natural W:",img.naturalWidth,"img natural H:", img.naturalHeight);
+//	  console.log("curr W:",currW,"curr H:",currH);
 
 	  // Scale overlay position and size
 	  overlay.style.left = (baseX * currW / baseImageW) + "px";
 	  overlay.style.top = (baseY * currH / baseImageH) + "px";
 	  overlay.style.width = (baseW * currW / baseImageW) + "px";
 	  overlay.style.height = (baseH * currH / baseImageH) + "px";
+//      console.log("Current yaw:", currentYaw);
+	  overlay.style.transform = `rotate(${currentYaw+yaw_offset}rad)`;
 	}
+	
+	function updateCameraRotation() {
+	  const overlay = document.getElementById('cameraLocation');
+  	  overlay.style.transform = `rotate(${currentYaw+yaw_offset}rad)`;
+	}
+	
 	window.addEventListener('resize', showCameraLocation);
 	window.addEventListener('DOMContentLoaded', showCameraLocation);
 
@@ -249,9 +269,10 @@
 		stopAutorotate();
 		//    scene.view.setParameters(scene.data.initialViewParameters);
 		scene.view.setParameters(nextViewParameters);
-		console.log("Next data from switchScene2 function:", nextViewParameters);
-		console.log("Camera location:",scene.data.cam_x, scene.data.cam_y);
-		showCameraLocation(scene.data.cam_x,scene.data.cam_y);
+//		console.log("Next data from switchScene2 function:", nextViewParameters);
+//		console.log("Camera location:",scene.data.cam_x, scene.data.cam_y, scene.data.yaw_offset);
+		showCameraLocation(scene.data.cam_x,scene.data.cam_y,scene.data.yaw_offset);
+		yaw_offset = scene.data.yaw_offset;
 		scene.scene.switchTo();
 		startAutorotate();
 		updateSceneName(scene);
@@ -292,6 +313,11 @@
     scene.view.setParameters(scene.data.initialViewParameters);
 /* New Code*/
 	showCameraLocation(scene.data.cam_x,scene.data.cam_y);
+//	console.log("Next data from switchScene function");
+//	console.log("Camera location:",scene.data.cam_x, scene.data.cam_y, scene.data.yaw_offset);
+	showCameraLocation(scene.data.cam_x,scene.data.cam_y,scene.data.yaw_offset);
+	yaw_offset = scene.data.yaw_offset;
+
 /* End of New Code */	
     scene.scene.switchTo();
     startAutorotate();

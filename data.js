@@ -26,6 +26,7 @@ var APP_DATA = {
       },
 	  "cam_x": 611,
 	  "cam_y": 168,
+	  "yaw_offset": 0,
       "linkHotspots": [
         {
           "yaw": -3.0612224965393207,
@@ -77,7 +78,8 @@ var APP_DATA = {
         "fov": 1.0
       },
 	  "cam_x": 297,
-	  "cam_y": 98,	  
+	  "cam_y": 98,
+	  "yaw_offset": 1.57,	  
       "linkHotspots": [
         {
           "yaw": -0.8114410359540276,
@@ -118,7 +120,8 @@ var APP_DATA = {
         "fov": 1.0
       },
 	  "cam_x": 483,
-	  "cam_y": 251,	  	  
+	  "cam_y": 251,
+	  "yaw_offset": 1.57,	  
       "linkHotspots": [
         {
           "yaw": -2.307108227562381,
@@ -203,7 +206,8 @@ var APP_DATA = {
         "fov": 1.0
       },
 	  "cam_x": 50,
-	  "cam_y": 163,	  	  
+	  "cam_y": 163,
+	  "yaw_offset": 2.0,	  
       "linkHotspots": [
         {
           "yaw": -1.7188813807116965,
@@ -244,7 +248,8 @@ var APP_DATA = {
         "fov": 1.0
       },
 	  "cam_x": 508,
-	  "cam_y": 94,	  	  
+	  "cam_y": 94,
+	  "yaw_offset": 1.57,	  
       "linkHotspots": [
         {
           "yaw": -0.2788803439045804,
@@ -285,7 +290,8 @@ var APP_DATA = {
         "fov": 1.0
       },
 	  "cam_x": 592,
-	  "cam_y": 360,	  	  
+	  "cam_y": 360,
+	  "yaw_offset": 0,	  
       "linkHotspots": [
         {
           "yaw": -1.0408709168509347,
@@ -337,7 +343,8 @@ var APP_DATA = {
         "fov": 1.0
       },
 	  "cam_x": 705,
-	  "cam_y": 263,	  	  
+	  "cam_y": 263,
+	  "yaw_offset": 0,	  
       "linkHotspots": [
         {
           "yaw": -2.589880864223776,
