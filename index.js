@@ -76,6 +76,11 @@
   // Initialize viewer.
   var viewer = new Marzipano.Viewer(panoElement, viewerOpts);
 
+  // Register the custom control method.
+  var deviceOrientationControlMethod = new DeviceOrientationControlMethod();
+  var controls = viewer.controls();
+  controls.registerMethod('deviceOrientation', deviceOrientationControlMethod);
+
   // Create scenes.
   var scenes = data.scenes.map(function(data) {
     var urlPrefix = "tiles";
@@ -162,7 +167,7 @@
   // Set handler for scene list toggle.
   sceneListToggleElement.addEventListener('click', toggleSceneList);
 
-  // Start with the scene list open on desktop.
+  // Start with the scene list open on desktop but not on mobile
 //  if (!document.body.classList.contains('mobile')) {
 //    showSceneList();
 //  }
@@ -318,7 +323,7 @@ function enable() {
 function disable() {
   controls.disableMethod('deviceOrientation');
   enabled = false;
-  toggleElement.className = '';
+  orientationToggleElement.className = '';
 }
 
 function toggle() {
