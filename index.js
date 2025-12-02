@@ -329,8 +329,10 @@ function disableOrientation() {
 function toggleOrientation() {
   if (orientationEnabled) {
     disableOrientation();
+	console.log("Orientation disabled");
   } else {
     enableOrientation();
+	console.log("Orientation enabled");
   }
 }
 
