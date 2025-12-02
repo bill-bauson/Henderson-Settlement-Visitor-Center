@@ -329,10 +329,8 @@ function disableOrientation() {
 function toggleOrientation() {
   if (orientationEnabled) {
     disableOrientation();
-	console.log("Orientation disabled");
   } else {
     enableOrientation();
-	console.log("Orientation enabled");
   }
 }
 
@@ -351,7 +349,7 @@ orientationToggleElement.addEventListener('click', toggleOrientation);
   var friction = 3;
 
   // Associate view controls with elements.
-  var controls = viewer.controls();
+//  var controls = viewer.controls();
   controls.registerMethod('upElement',    new Marzipano.ElementPressControlMethod(viewUpElement,     'y', -velocity, friction), true);
   controls.registerMethod('downElement',  new Marzipano.ElementPressControlMethod(viewDownElement,   'y',  velocity, friction), true);
   controls.registerMethod('leftElement',  new Marzipano.ElementPressControlMethod(viewLeftElement,   'x', -velocity, friction), true);
