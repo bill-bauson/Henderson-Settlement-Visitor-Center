@@ -58,11 +58,11 @@ a, a:hover, a:active, a:visited {
 
 /* If there is a fullscreen button the title bar must make space for it */
 body.fullscreen-enabled #titleBar {
-  right: 80px;
+  right: 120px;
 }
 
 body.fullscreen-enabled.mobile #titleBar {
-  right: 100px;
+  right: 150px;
 }
 
 /* If there are multiple scenes the title bar must make space for the scene list toggle */
@@ -197,6 +197,58 @@ body.fullscreen-enabled.mobile #autorotateToggle {
 }
 
 #autorotateToggle.enabled .icon.off {
+  display: none;
+}
+
+#toggleDeviceOrientation {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  background-color: rgb(103,115,131);
+  background-color: rgba(103,115,131,0.8);
+}
+
+.mobile #toggleDeviceOrientation {
+  width: 50px;
+  height: 50px;
+}
+
+/* If there is a fullscreen button, orientation must be placed a bit to the left */
+body.fullscreen-enabled #toggleDeviceOrientation {
+  right: 80px;
+}
+
+body.fullscreen-enabled.mobile #toggleDeviceOrientation {
+  right: 100px;
+}
+
+#toggleDeviceOrientation .icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 30px;
+  height: 30px;
+}
+
+.mobile #toggleDeviceOrientation .icon {
+  top: 10px;
+  right: 10px;
+}
+
+#toggleDeviceOrientation .disable {
+  display: none;
+}
+
+#toggleDeviceOrientation.enabled .disable {
+  display: block;
+}
+
+#toggleDeviceOrientation.enabled .enable {
+  display: none;
   display: none;
 }
 

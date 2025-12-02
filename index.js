@@ -32,6 +32,7 @@
   var sceneListToggleElement = document.querySelector('#sceneListToggle');
   var autorotateToggleElement = document.querySelector('#autorotateToggle');
   var fullscreenToggleElement = document.querySelector('#fullscreenToggle');
+  var orientationToggleElement = document.querySelector('#toggleDeviceOrientation');
 
   // Detect desktop or mobile mode.
   if (window.matchMedia) {
@@ -194,7 +195,7 @@
 	  return null;
 	}
 
-	function resizeAreas() {
+	function resizeMap() {
 	//	  const declaredCSS = getDeclaredCSS('#sceneList');
 	//	  const cssWidth = Math.abs(parseFloat(declaredCSS));
 	//	  console.log("Declared CSS width:", cssWidth); // "" if no corresponding property set in that rule
@@ -224,37 +225,37 @@
 	  });
 	}
 
-	window.addEventListener('resize', resizeAreas);
-	document.getElementById('mapImage').addEventListener('load', resizeAreas);
-	window.addEventListener('DOMContentLoaded', resizeAreas);
-//	resizeAreas();
+	window.addEventListener('resize', resizeMap);
+	document.getElementById('mapImage').addEventListener('load', resizeMap);
+	window.addEventListener('DOMContentLoaded', resizeMap);
 
 	function showCameraLocation(cam_x,cam_y,yaw_offset) {
 	  var img = document.getElementById('mapImage');
-//	  const container = document.getElementById('sceneList');
-	  const overlay = document.getElementById('cameraLocation');
-//	  const baseX = 601; // original overlay x position (pixels)
-//	  const baseY = 158; // original overlay y position (pixels)
 	  const baseW = 40; // original overlay width (pixels)
 	  const baseH = 40; // original overlay height (pixels)
-	  var baseX = cam_x - baseW/2;
+	  var baseX = cam_x - baseW/2; // overlay center
 	  var baseY = cam_y - baseH/2;
 	  const baseImageW = img.naturalWidth; // base image width
 	  const baseImageH = img.naturalHeight; // base image height
 //	  const currW = container.offsetWidth;
 //	  const currH = container.offsetHeight;
-	  const currW = img.width;
-	  const currH = img.height;
-//	  console.log("img natural W:",img.naturalWidth,"img natural H:", img.naturalHeight);
-//	  console.log("curr W:",currW,"curr H:",currH);
+	  var currW = img.width; // current base image width
+	  var currH = img.height;
 
 	  // Scale overlay position and size
+	  const overlay = document.getElementById('cameraLocation');
 	  overlay.style.left = (baseX * currW / baseImageW) + "px";
 	  overlay.style.top = (baseY * currH / baseImageH) + "px";
 	  overlay.style.width = (baseW * currW / baseImageW) + "px";
 	  overlay.style.height = (baseH * currH / baseImageH) + "px";
-//      console.log("Current yaw:", currentYaw);
 	  overlay.style.transform = `rotate(${currentYaw+yaw_offset}rad)`;
+
+	  console.log("");
+  	  console.log("baseX:",baseX,"baseY:",baseY);
+  	  console.log("img natural W:",img.naturalWidth,"img natural H:",img.naturalHeight);
+	  console.log("curr W:",currW,"curr H:",currH);
+	  console.log("scaled L:",overlay.style.left,"scaled T:",overlay.style.top);
+//      console.log("Current yaw:", currentYaw);
 	}
 	
 	function updateCameraRotation() {
@@ -263,7 +264,6 @@
 	}
 	
 	window.addEventListener('resize', showCameraLocation);
-	window.addEventListener('DOMContentLoaded', showCameraLocation);
 
 	function switchScene2(scene, nextViewParameters) {
 		stopAutorotate();
@@ -279,6 +279,59 @@
 		updateSceneList(scene);
 	}
 
+// Set up control for enabling/disabling device orientation.
+
+var enabled = false;
+
+var orientationToggleElement = document.getElementById('toggleDeviceOrientation');
+
+function requestPermissionForIOS() {
+  window.DeviceOrientationEvent.requestPermission()
+    .then(response => {
+      if (response === 'granted') {
+        enableDeviceOrientation()
+      }
+    }).catch((e) => {
+      console.error(e)
+    })
+}
+
+function enableDeviceOrientation() {
+  deviceOrientationControlMethod.getPitch(function (err, pitch) {
+    if (!err) {
+      view.setPitch(pitch);
+    }
+  });
+  controls.enableMethod('deviceOrientation');
+  enabled = true;
+  orientationToggleElement.className = 'enabled';
+}
+
+function enable() {
+  if (window.DeviceOrientationEvent) {
+    if (typeof (window.DeviceOrientationEvent.requestPermission) == 'function') {
+      requestPermissionForIOS()
+    } else {
+      enableDeviceOrientation()
+    }
+  }
+}
+
+function disable() {
+  controls.disableMethod('deviceOrientation');
+  enabled = false;
+  toggleElement.className = '';
+}
+
+function toggle() {
+  if (enabled) {
+    disable();
+  } else {
+    enable();
+  }
+}
+
+orientationToggleElement.addEventListener('click', toggle);
 		
 /* end of new code */
 
@@ -311,14 +364,10 @@
   function switchScene(scene) {
     stopAutorotate();
     scene.view.setParameters(scene.data.initialViewParameters);
-/* New Code*/
-	showCameraLocation(scene.data.cam_x,scene.data.cam_y);
 //	console.log("Next data from switchScene function");
 //	console.log("Camera location:",scene.data.cam_x, scene.data.cam_y, scene.data.yaw_offset);
 	showCameraLocation(scene.data.cam_x,scene.data.cam_y,scene.data.yaw_offset);
 	yaw_offset = scene.data.yaw_offset;
-
-/* End of New Code */	
     scene.scene.switchTo();
     startAutorotate();
     updateSceneName(scene);
