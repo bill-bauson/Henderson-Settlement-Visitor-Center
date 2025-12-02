@@ -16,6 +16,28 @@
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
+/* Lay out the icons side by side */
+.titlebar-icon-wrapper {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0px; /* Safari 14+; if older, keep margin on children */
+}
+
+.titlebar-icon-wrapper > * {
+  flex-shrink: 0;
+  margin: 0 0px;
+  -webkit-flex-shrink: 0; /* Prevents Safari over-shrinking */
+  flex-shrink: 0;
+  -webkit-flex-basis: auto; /* Respects content size */
+  flex-basis: auto;
+  min-width: 30px; /* Prevents collapse; adjust per icon */
+}
+
 html, body {
   width: 100%;
   height: 100%;
@@ -46,7 +68,7 @@ a, a:hover, a:active, a:visited {
   position: absolute;
   top: 0;
   left: 0;
-  right: 40px;
+  right: 120px;
   height: 40px;
   text-align: center;
 }
@@ -56,14 +78,6 @@ a, a:hover, a:active, a:visited {
   right: 50px;
 }
 
-/* If there is a fullscreen button the title bar must make space for it */
-body.fullscreen-enabled #titleBar {
-  right: 120px;
-}
-
-body.fullscreen-enabled.mobile #titleBar {
-  right: 150px;
-}
 
 /* If there are multiple scenes the title bar must make space for the scene list toggle */
 body.multiple-scenes #titleBar {
@@ -96,10 +110,7 @@ body.multiple-scenes.mobile #titleBar {
 }
 
 #fullscreenToggle {
-  display: none;
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: static;
   width: 40px;
   height: 40px;
   padding: 5px;
@@ -117,16 +128,15 @@ body.fullscreen-enabled #fullscreenToggle {
 }
 
 #fullscreenToggle .icon {
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  position: relative;
   width: 30px;
   height: 30px;
 }
 
 .mobile #fullscreenToggle .icon {
-  top: 10px;
-  right: 10px;
+  position: relative;
+  width: 30px;
+  height: 30px;
 }
 
 #fullscreenToggle .icon.on {
@@ -145,11 +155,50 @@ body.fullscreen-enabled #fullscreenToggle {
   display: none;
 }
 
-#autorotateToggle {
+#toggleDeviceOrientation {
+  position: static;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  background-color: rgb(103,115,131);
+  background-color: rgba(103,115,131,0.8);
+}
+
+.mobile #toggleDeviceOrientation {
+  width: 50px;
+  height: 50px;
+}
+
+
+#toggleDeviceOrientation .icon {
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+
+.mobile #toggleDeviceOrientation .icon {
+  top: 10px;
+  right: 10px;
+}
+
+#toggleDeviceOrientation .enable {
+  display: none;
+}
+
+#toggleDeviceOrientation .disable {
   display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
+}
+
+#toggleDeviceOrientation.enabled .enable {
+  display: block;
+}
+
+#toggleDeviceOrientation.enabled .disable {
+  display: none;
+}
+
+#autorotateToggle {
+  position: static;
   width: 40px;
   height: 40px;
   padding: 5px;
@@ -162,19 +211,9 @@ body.fullscreen-enabled #fullscreenToggle {
   height: 50px;
 }
 
-/* If there is a fullscreen button, autorotate must placed a bit to the left */
-body.fullscreen-enabled #autorotateToggle {
-  right: 40px;
-}
-
-body.fullscreen-enabled.mobile #autorotateToggle {
-  right: 50px;
-}
 
 #autorotateToggle .icon {
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  position: relative;
   width: 30px;
   height: 30px;
 }
@@ -197,58 +236,6 @@ body.fullscreen-enabled.mobile #autorotateToggle {
 }
 
 #autorotateToggle.enabled .icon.off {
-  display: none;
-}
-
-#toggleDeviceOrientation {
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 40px;
-  height: 40px;
-  padding: 5px;
-  background-color: rgb(103,115,131);
-  background-color: rgba(103,115,131,0.8);
-}
-
-.mobile #toggleDeviceOrientation {
-  width: 50px;
-  height: 50px;
-}
-
-/* If there is a fullscreen button, orientation must be placed a bit to the left */
-body.fullscreen-enabled #toggleDeviceOrientation {
-  right: 80px;
-}
-
-body.fullscreen-enabled.mobile #toggleDeviceOrientation {
-  right: 100px;
-}
-
-#toggleDeviceOrientation .icon {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 30px;
-  height: 30px;
-}
-
-.mobile #toggleDeviceOrientation .icon {
-  top: 10px;
-  right: 10px;
-}
-
-#toggleDeviceOrientation .disable {
-  display: none;
-}
-
-#toggleDeviceOrientation.enabled .disable {
-  display: block;
-}
-
-#toggleDeviceOrientation.enabled .enable {
-  display: none;
   display: none;
 }
 
