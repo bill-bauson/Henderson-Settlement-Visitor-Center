@@ -22,6 +22,8 @@
   var data = window.APP_DATA;
   
   var currentYaw = 0;
+  var cam_x = 0;
+  var cam_y = 0;
   var yaw_offset = 0;
 
   // Grab elements from DOM.
@@ -82,7 +84,6 @@
       { cubeMapPreviewUrl: urlPrefix + "/" + data.id + "/preview.jpg" });
     var geometry = new Marzipano.CubeGeometry(data.levels);
 
-/* new code */
 //    var limiter = Marzipano.RectilinearView.limit.traditional(data.faceSize, 100*Math.PI/180, 120*Math.PI/180);
 // Increase allowable zoom (1st parameter), limit vertical fov (2nd parameter), limit horizontal fov (3rd parameter)
 	var limiter = Marzipano.util.compose(
@@ -100,7 +101,6 @@
 //		console.log("Current yaw:", yaw);
 	});
 
-/* end of new code */	
 
     var scene = viewer.createScene({
       source: source,
@@ -132,10 +132,8 @@
   var autorotate = Marzipano.autorotate({
     yawSpeed: 0.03,
     targetPitch: 0,
-/* new code */
 //    targetFov: Math.PI/2
 	targetFov: 1.0
-/* end of new code */	
   });
   if (data.settings.autorotateEnabled) {
     autorotateToggleElement.classList.add('enabled');
@@ -165,17 +163,17 @@
   sceneListToggleElement.addEventListener('click', toggleSceneList);
 
   // Start with the scene list open on desktop.
-  if (!document.body.classList.contains('mobile')) {
+//  if (!document.body.classList.contains('mobile')) {
+//    showSceneList();
+//  }
     showSceneList();
-  }
 
-/*  new code */
 	scenes.forEach(function(scene) {
 	  document.querySelectorAll('.scene[data-id="' + scene.data.id + '"]').forEach(function(el) {
 		el.addEventListener('click', function(e) {
 		  switchScene(scene);
 		  if (document.body.classList.contains('mobile')) {
-			hideSceneList();
+//			hideSceneList();
 		  }
 		});
 	  });
@@ -229,16 +227,14 @@
 	document.getElementById('mapImage').addEventListener('load', resizeMap);
 	window.addEventListener('DOMContentLoaded', resizeMap);
 
-	function showCameraLocation(cam_x,cam_y,yaw_offset) {
+	function showCameraLocation() {
 	  var img = document.getElementById('mapImage');
 	  const baseW = 40; // original overlay width (pixels)
 	  const baseH = 40; // original overlay height (pixels)
-	  var baseX = cam_x - baseW/2; // overlay center
-	  var baseY = cam_y - baseH/2;
+	  var baseX = cam_x - baseW/2; // overlay top
+	  var baseY = cam_y - baseH/2; // overlay left
 	  const baseImageW = img.naturalWidth; // base image width
 	  const baseImageH = img.naturalHeight; // base image height
-//	  const currW = container.offsetWidth;
-//	  const currH = container.offsetHeight;
 	  var currW = img.width; // current base image width
 	  var currH = img.height;
 
@@ -250,12 +246,12 @@
 	  overlay.style.height = (baseH * currH / baseImageH) + "px";
 	  overlay.style.transform = `rotate(${currentYaw+yaw_offset}rad)`;
 
-	  console.log("");
-  	  console.log("baseX:",baseX,"baseY:",baseY);
-  	  console.log("img natural W:",img.naturalWidth,"img natural H:",img.naturalHeight);
-	  console.log("curr W:",currW,"curr H:",currH);
-	  console.log("scaled L:",overlay.style.left,"scaled T:",overlay.style.top);
-//      console.log("Current yaw:", currentYaw);
+//	  console.log("");
+//	  console.log("baseX:",baseX,"baseY:",baseY);
+//    console.log("img natural W:",img.naturalWidth,"img natural H:",img.naturalHeight);
+//	  console.log("curr W:",currW,"curr H:",currH);
+//	  console.log("scaled L:",overlay.style.left,"scaled T:",overlay.style.top);
+//    console.log("Current yaw:", currentYaw);
 	}
 	
 	function updateCameraRotation() {
@@ -271,8 +267,10 @@
 		scene.view.setParameters(nextViewParameters);
 //		console.log("Next data from switchScene2 function:", nextViewParameters);
 //		console.log("Camera location:",scene.data.cam_x, scene.data.cam_y, scene.data.yaw_offset);
-		showCameraLocation(scene.data.cam_x,scene.data.cam_y,scene.data.yaw_offset);
+		cam_x = scene.data.cam_x;
+		cam_y = scene.data.cam_y;
 		yaw_offset = scene.data.yaw_offset;
+		showCameraLocation();
 		scene.scene.switchTo();
 		startAutorotate();
 		updateSceneName(scene);
@@ -333,8 +331,6 @@ function toggle() {
 
 orientationToggleElement.addEventListener('click', toggle);
 		
-/* end of new code */
-
   // DOM elements for view controls.
   var viewUpElement = document.querySelector('#viewUp');
   var viewDownElement = document.querySelector('#viewDown');
@@ -366,8 +362,10 @@ orientationToggleElement.addEventListener('click', toggle);
     scene.view.setParameters(scene.data.initialViewParameters);
 //	console.log("Next data from switchScene function");
 //	console.log("Camera location:",scene.data.cam_x, scene.data.cam_y, scene.data.yaw_offset);
-	showCameraLocation(scene.data.cam_x,scene.data.cam_y,scene.data.yaw_offset);
+	cam_x = scene.data.cam_x;
+	cam_y = scene.data.cam_y;
 	yaw_offset = scene.data.yaw_offset;
+	showCameraLocation();
     scene.scene.switchTo();
     startAutorotate();
     updateSceneName(scene);
