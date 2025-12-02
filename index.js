@@ -302,7 +302,7 @@ function requestPermissionForIOS() {
 function enableDeviceOrientation() {
   deviceOrientationControlMethod.getPitch(function (err, pitch) {
     if (!err) {
-      view.setPitch(pitch);
+//      view.setPitch(pitch);
     }
   });
   controls.enableMethod('deviceOrientation');
