@@ -284,7 +284,7 @@
 
 // Set up control for enabling/disabling device orientation.
 
-var enabled = false;
+var orientationEnabled = false;
 
 var orientationToggleElement = document.getElementById('toggleDeviceOrientation');
 
@@ -306,11 +306,11 @@ function enableDeviceOrientation() {
     }
   });
   controls.enableMethod('deviceOrientation');
-  enabled = true;
+  orientationEnabled = true;
   orientationToggleElement.className = 'enabled';
 }
 
-function enable() {
+function enableOrientation() {
   if (window.DeviceOrientationEvent) {
     if (typeof (window.DeviceOrientationEvent.requestPermission) == 'function') {
       requestPermissionForIOS()
@@ -320,21 +320,21 @@ function enable() {
   }
 }
 
-function disable() {
+function disableOrientation() {
   controls.disableMethod('deviceOrientation');
-  enabled = false;
+  orientationEnabled = false;
   orientationToggleElement.className = '';
 }
 
-function toggle() {
-  if (enabled) {
-    disable();
+function toggleOrientation() {
+  if (orientationEnabled) {
+    disableOrientation();
   } else {
-    enable();
+    enableOrientation();
   }
 }
 
-orientationToggleElement.addEventListener('click', toggle);
+orientationToggleElement.addEventListener('click', toggleOrientation);
 		
   // DOM elements for view controls.
   var viewUpElement = document.querySelector('#viewUp');

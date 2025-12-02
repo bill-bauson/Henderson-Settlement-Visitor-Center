@@ -330,7 +330,6 @@ body.fullscreen-enabled.mobile #toggleDeviceOrientation {
 }
 
 .mobile #sceneList {
-  width: 100%;
   left: -100%;
 }
 
