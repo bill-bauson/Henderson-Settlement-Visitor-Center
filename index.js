@@ -336,7 +336,7 @@
         orientationToggleElement.className = '';
     }
 
-/*
+
     function toggleOrientation() {
         if (orientationEnabled) {
             disableOrientation();
@@ -344,8 +344,8 @@
             enableOrientation();
         }
     }
-*/
 
+/*
     function toggleOrientation() {
         if (orientationToggleElement.classList.contains('enabled')) {
             orientationToggleElement.classList.remove('enabled');
@@ -363,8 +363,7 @@
 			orientationEnabled = false;
         }
     }
-
-
+*/
     orientationToggleElement.addEventListener('click', toggleOrientation);
 
     // DOM elements for view controls.
