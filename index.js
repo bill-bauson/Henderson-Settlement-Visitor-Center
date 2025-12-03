@@ -103,7 +103,6 @@
             let pitch = view.pitch(); // optional
             currentYaw = yaw;
             updateCameraRotation();
-            //		console.log("Current yaw:", yaw);
         });
 
         var scene = viewer.createScene({
@@ -172,19 +171,12 @@
     // Set handler for scene list toggle.
     sceneListToggleElement.addEventListener('click', toggleSceneList);
 
-    // Start with the scene list open on desktop but not on mobile
-    //  if (!document.body.classList.contains('mobile')) {
-    //    showSceneList();
-    //  }
     showSceneList();
 
     scenes.forEach(function (scene) {
         document.querySelectorAll('.scene[data-id="' + scene.data.id + '"]').forEach(function (el) {
             el.addEventListener('click', function (e) {
                 switchScene(scene);
-                if (document.body.classList.contains('mobile')) {
-                    //			hideSceneList();
-                }
             });
         });
     });
@@ -205,22 +197,13 @@
     }
 
     function resizeMap() {
-        //	  const declaredCSS = getDeclaredCSS('#sceneList');
-        //	  const cssWidth = Math.abs(parseFloat(declaredCSS));
-        //	  console.log("Declared CSS width:", cssWidth); // "" if no corresponding property set in that rule
-
         var img = document.getElementById('mapImage');
-        /*	  var w = img.naturalWidth, h = img.naturalHeight; */
-        //	  const pxWidth = parseFloat(cssWidth);
-        //  var pxHeight = img.naturalHeight * pxWidth / img.naturalWidth;
         var pxHeight = img.naturalHeight;
         var pxWidth = img.naturalWidth;
-        //	  console.log("Pix W/H: ",pxWidth, ",", pxHeight);
         var w = pxWidth,
         h = pxHeight;
         var cw = img.width,
         ch = img.height;
-        //	  console.log("img W/H: ",cw, ",", ch);
 
         document.querySelectorAll('area[data-rawcoords]').forEach(function (area) {
             let orig = area.getAttribute('data-rawcoords').split(',').map(Number);
@@ -258,13 +241,6 @@
         overlay.style.width = (baseW * currW / baseImageW) + "px";
         overlay.style.height = (baseH * currH / baseImageH) + "px";
         overlay.style.transform = `rotate(${currentYaw + yaw_offset}rad)`;
-
-        //	  console.log("");
-        //	  console.log("baseX:",baseX,"baseY:",baseY);
-        //    console.log("img natural W:",img.naturalWidth,"img natural H:",img.naturalHeight);
-        //	  console.log("curr W:",currW,"curr H:",currH);
-        //	  console.log("scaled L:",overlay.style.left,"scaled T:",overlay.style.top);
-        //    console.log("Current yaw:", currentYaw);
     }
 
     function updateCameraRotation() {
@@ -278,10 +254,7 @@
 
     function switchScene2(scene, nextViewParameters) {
         stopAutorotate();
-        //    scene.view.setParameters(scene.data.initialViewParameters);
         scene.view.setParameters(nextViewParameters);
-        //		console.log("Next data from switchScene2 function:", nextViewParameters);
-        //		console.log("Camera location:",scene.data.cam_x, scene.data.cam_y, scene.data.yaw_offset);
         cam_x = scene.data.cam_x;
         cam_y = scene.data.cam_y;
         yaw_offset = scene.data.yaw_offset;
@@ -293,7 +266,6 @@
     }
 
     // Set up control for enabling/disabling device orientation.
-
     var orientationEnabled = false;
 
     var orientationToggleElement = document.getElementById('toggleDeviceOrientation');
@@ -310,11 +282,6 @@
     }
 
     function enableDeviceOrientation() {
-        deviceOrientationControlMethod.getPitch(function (err, pitch) {
-            if (!err) {
-                //      view.setPitch(pitch);
-            }
-        });
         controls.enableMethod('deviceOrientation');
         orientationEnabled = true;
         orientationToggleElement.className = 'enabled';
@@ -336,34 +303,16 @@
         orientationToggleElement.className = '';
     }
 
-
     function toggleOrientation() {
         if (orientationEnabled) {
             disableOrientation();
+            startAutorotate();
         } else {
             enableOrientation();
+            stopAutorotate();
         }
     }
 
-/*
-    function toggleOrientation() {
-        if (orientationToggleElement.classList.contains('enabled')) {
-            orientationToggleElement.classList.remove('enabled');
-			if (window.DeviceOrientationEvent) {
-				if (typeof(window.DeviceOrientationEvent.requestPermission) == 'function') {
-					requestPermissionForIOS()
-				} else {
-					controls.enableMethod('deviceOrientation');
-					orientationEnabled = true;
-				}
-			}
-        } else {
-            orientationToggleElement.classList.add('enabled');
-			controls.disableMethod('deviceOrientation');
-			orientationEnabled = false;
-        }
-    }
-*/
     orientationToggleElement.addEventListener('click', toggleOrientation);
 
     // DOM elements for view controls.
@@ -379,7 +328,6 @@
     var friction = 3;
 
     // Associate view controls with elements.
-    //  var controls = viewer.controls();
     controls.registerMethod('upElement', new Marzipano.ElementPressControlMethod(viewUpElement, 'y', -velocity, friction), true);
     controls.registerMethod('downElement', new Marzipano.ElementPressControlMethod(viewDownElement, 'y', velocity, friction), true);
     controls.registerMethod('leftElement', new Marzipano.ElementPressControlMethod(viewLeftElement, 'x', -velocity, friction), true);
@@ -395,8 +343,6 @@
     function switchScene(scene) {
         stopAutorotate();
         scene.view.setParameters(scene.data.initialViewParameters);
-        //	console.log("Next data from switchScene function");
-        //	console.log("Camera location:",scene.data.cam_x, scene.data.cam_y, scene.data.yaw_offset);
         cam_x = scene.data.cam_x;
         cam_y = scene.data.cam_y;
         yaw_offset = scene.data.yaw_offset;
@@ -481,7 +427,6 @@
 
         // Add click event handler.
         wrapper.addEventListener('click', function () {
-            //	  console.log("Hotspot.nextViewParameters from line 329:", hotspot.nextViewParameters);
             switchScene2(findSceneById(hotspot.target), hotspot.nextViewParameters);
         });
 
