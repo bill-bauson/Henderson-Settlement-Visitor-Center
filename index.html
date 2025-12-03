@@ -35,20 +35,27 @@
   <h1 class="sceneName"></h1>
 </div>
 
-<a href="javascript:void(0)" id="autorotateToggle">
-  <img class="icon off" src="img/play.png">
-  <img class="icon on" src="img/pause.png">
-</a>
+<div class="titlebar-icon-wrapper">
+	<a href="javascript:void(0)" id="toggleDeviceOrientation">
+	  <img class="icon off" src="img/enable.png">
+	  <img class="icon on" src="img/disable.png">
+	</a>
 
-<a href="javascript:void(0)" id="fullscreenToggle">
-  <img class="icon off" src="img/fullscreen.png">
-  <img class="icon on" src="img/windowed.png">
-</a>
+	<a href="javascript:void(0)" id="autorotateToggle">
+	  <img class="icon off" src="img/play.png">
+	  <img class="icon on" src="img/pause.png">
+	</a>
 
-<a href="javascript:void(0)" id="sceneListToggle">
-  <img class="icon off" src="img/expand.png">
-  <img class="icon on" src="img/collapse.png">
-</a>
+	<a href="javascript:void(0)" id="fullscreenToggle">
+	  <img class="icon off" src="img/fullscreen.png">
+	  <img class="icon on" src="img/windowed.png">
+	</a>
+
+	<a href="javascript:void(0)" id="sceneListToggle">
+	  <img class="icon off" src="img/expand.png">
+	  <img class="icon on" src="img/collapse.png">
+	</a>
+</div>
 
 <a href="javascript:void(0)" id="viewUp" class="viewControlButton viewControlButton-1">
   <img class="icon" src="img/up.png">
@@ -72,6 +79,7 @@
 <script src="vendor/screenfull.min.js" ></script>
 <script src="vendor/bowser.min.js" ></script>
 <script src="vendor/marzipano.js" ></script>
+<script src="vendor/DeviceOrientationControlMethod.js" ></script>
 
 <script src="data.js"></script>
 <script src="index.js"></script>

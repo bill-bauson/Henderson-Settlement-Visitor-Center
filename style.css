@@ -46,22 +46,22 @@ a, a:hover, a:active, a:visited {
   position: absolute;
   top: 0;
   left: 0;
-  right: 40px;
+  right: 120px;
   height: 40px;
   text-align: center;
 }
 
 .mobile #titleBar {
   height: 50px;
-  right: 50px;
+  right: 150px;
 }
 
-/* If there is a fullscreen button the title bar must make space for it */
-body.fullscreen-enabled #titleBar {
+/* Adjust title bar if fullscreen isn't enabled */
+body.fullscreen-disabled #titleBar {
   right: 80px;
 }
 
-body.fullscreen-enabled.mobile #titleBar {
+body.fullscreen-disabled.mobile #titleBar {
   right: 100px;
 }
 
@@ -95,16 +95,44 @@ body.multiple-scenes.mobile #titleBar {
   line-height: 40px;
 }
 
-#fullscreenToggle {
+/* Lay out the icons side by side */
+.titlebar-icon-wrapper {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0px; /* Safari 14+; if older, keep margin on children */
+}
+
+.titlebar-icon-wrapper > * {
+  flex-shrink: 0;
+  margin: 0 0px;
+  -webkit-flex-shrink: 0; /* Prevents Safari over-shrinking */
+  flex-shrink: 0;
+  -webkit-flex-basis: auto; /* Respects content size */
+  flex-basis: auto;
+  min-width: 30px; /* Prevents collapse; adjust per icon */
+}
+
+body.fullscreen-enabled #fullscreenToggle {
+  display: block;
+}
+
+body.fullscreen-disabled #fullscreenToggle {
   display: none;
-  position: absolute;
-  top: 0;
-  right: 0;
+}
+
+#fullscreenToggle {
+  position: static;
   width: 40px;
   height: 40px;
   padding: 5px;
   background-color: rgb(103,115,131);
   background-color: rgba(103,115,131,0.8);
+  z-index:1;
 }
 
 .mobile #fullscreenToggle {
@@ -112,21 +140,17 @@ body.multiple-scenes.mobile #titleBar {
   height: 50px;
 }
 
-body.fullscreen-enabled #fullscreenToggle {
-  display: block;
-}
 
 #fullscreenToggle .icon {
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  position: relative;
   width: 30px;
   height: 30px;
 }
 
 .mobile #fullscreenToggle .icon {
-  top: 10px;
-  right: 10px;
+  position: relative;
+  width: 40px;
+  height: 40px;
 }
 
 #fullscreenToggle .icon.on {
@@ -146,15 +170,13 @@ body.fullscreen-enabled #fullscreenToggle {
 }
 
 #autorotateToggle {
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: static;
   width: 40px;
   height: 40px;
   padding: 5px;
   background-color: rgb(103,115,131);
   background-color: rgba(103,115,131,0.8);
+  z-index:1;
 }
 
 .mobile #autorotateToggle {
@@ -162,26 +184,17 @@ body.fullscreen-enabled #fullscreenToggle {
   height: 50px;
 }
 
-/* If there is a fullscreen button, autorotate must placed a bit to the left */
-body.fullscreen-enabled #autorotateToggle {
-  right: 40px;
-}
-
-body.fullscreen-enabled.mobile #autorotateToggle {
-  right: 50px;
-}
 
 #autorotateToggle .icon {
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  position: relative;
   width: 30px;
   height: 30px;
 }
 
 .mobile #autorotateToggle .icon {
-  top: 10px;
-  right: 10px;
+  position: relative;
+  width: 40px;
+  height: 40px;
 }
 
 #autorotateToggle .icon.on {
@@ -197,6 +210,49 @@ body.fullscreen-enabled.mobile #autorotateToggle {
 }
 
 #autorotateToggle.enabled .icon.off {
+  display: none;
+}
+
+#toggleDeviceOrientation {
+  position: static;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  background-color: rgb(103,115,131);
+  background-color: rgba(103,115,131,0.8);
+  z-index:1;
+}
+
+.mobile #toggleDeviceOrientation {
+  width: 50px;
+  height: 50px;
+}
+
+#toggleDeviceOrientation .icon {
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+
+.mobile #toggleDeviceOrientation .icon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+#toggleDeviceOrientation .icon.on {
+  display: none;
+}
+
+#toggleDeviceOrientation .icon.off {
+  display: block;
+}
+
+#toggleDeviceOrientation.enabled .icon.on {
+  display: block;
+}
+
+#toggleDeviceOrientation.enabled .icon.off {
   display: none;
 }
 
@@ -233,8 +289,10 @@ body.fullscreen-enabled.mobile #autorotateToggle {
 }
 
 .mobile #sceneListToggle .icon {
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  right: 5px;
+  width: 40px;
+  height: 40px;
 }
 
 #sceneListToggle .icon.on {
@@ -278,8 +336,6 @@ body.fullscreen-enabled.mobile #autorotateToggle {
 }
 
 .mobile #sceneList {
-  width: 100%;
-  height: 100%;
   left: -100%;
 }
 
