@@ -336,6 +336,7 @@
         orientationToggleElement.className = '';
     }
 
+/*
     function toggleOrientation() {
         if (orientationEnabled) {
             disableOrientation();
@@ -343,6 +344,26 @@
             enableOrientation();
         }
     }
+*/
+
+    function toggleOrientation() {
+        if (orientationToggleElement.classList.contains('enabled')) {
+            orientationToggleElement.classList.remove('enabled');
+			if (window.DeviceOrientationEvent) {
+				if (typeof(window.DeviceOrientationEvent.requestPermission) == 'function') {
+					requestPermissionForIOS()
+				} else {
+					controls.enableMethod('deviceOrientation');
+					orientationEnabled = true;
+				}
+			}
+        } else {
+            orientationToggleElement.classList.add('enabled');
+			controls.disableMethod('deviceOrientation');
+			orientationEnabled = false;
+        }
+    }
+
 
     orientationToggleElement.addEventListener('click', toggleOrientation);
 
